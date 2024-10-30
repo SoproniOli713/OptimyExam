@@ -52,22 +52,6 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function delete($id)
     {
-        // TODO:: change this to make use of easier comment deletion
-
-        // $comments = CommentController::getInstance()->listComments();
-        // $idsToDelete = [];
-
-        // foreach ($comments as $comment) {
-        //     if ($comment->getNewsId() == $id) {
-        //         $idsToDelete[] = $comment->getId();
-        //     }
-        // }
-
-        // foreach ($idsToDelete as $id) {
-        //     CommentController::getInstance()->deleteComment($id);
-        // }
-
-
         $sql = "DELETE FROM `news` WHERE `id`=" . $id;
         return $this->databaseService->exec($sql);
     }

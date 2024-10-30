@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers;
+use App\Interfaces\CommentRepositoryInterface;
 use App\Interfaces\NewsRepositoryInterface;
 
 use App\Controllers\CommentController;
@@ -10,18 +11,20 @@ class NewsController
 {
 	private static $instance = null;
 	private $newsRepository;
+	private $commentRepository;
 
-	private function __construct(NewsRepositoryInterface $NewsRepository)
+	private function __construct(NewsRepositoryInterface $NewsRepository, CommentRepositoryInterface $commentRepositoryInterface)
 	{
 
 		$this->newsRepository = $NewsRepository;
+		$this->commentRepository = $commentRepositoryInterface;
 
 	}
 
-	public static function getInstance(NewsRepositoryInterface $newsRepositoryInterface)
+	public static function getInstance(NewsRepositoryInterface $newsRepositoryInterface, CommentRepositoryInterface $commentRepositoryInterface)
 	{
 		if (null === self::$instance) {
-			self::$instance = new self($newsRepositoryInterface);
+			self::$instance = new self($newsRepositoryInterface, $commentRepositoryInterface);
 			;
 		}
 		return self::$instance;
@@ -53,8 +56,8 @@ class NewsController
 	public function deleteNews($id)
 	{
 
-		// TODO:: add comment deletion base on news_id {$id}
-
+		// delete the comments associated to this news
+		$this->commentRepository->deleteByNewsId($id);
 		return $this->newsRepository->delete($id);
 
 

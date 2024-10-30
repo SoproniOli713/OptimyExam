@@ -1,55 +1,43 @@
 <?php
 namespace App\Controllers;
+use App\Interfaces\CommentRepositoryInterface;
 use Classes\Comment;
 
 class CommentController
 {
+	private $commentRepository;
 	private static $instance = null;
 
-	private function __construct()
+	private function __construct(CommentRepositoryInterface $commentRepositoryInterface)
 	{
-		require_once(ROOT . '/utils/DB.php');
 
+		$this->commentRepository = $commentRepositoryInterface;
 	}
 
-	public static function getInstance()
+	public static function getInstance(CommentRepositoryInterface $commentRepositoryInterface)
 	{
 		if (null === self::$instance) {
 			$c = __CLASS__;
-			self::$instance = new $c;
+			self::$instance = new self($commentRepositoryInterface);
 		}
 		return self::$instance;
 	}
 
 	public function listComments()
 	{
-		$db = DB::getInstance();
-		$rows = $db->select('SELECT * FROM `comment`');
-
-		$comments = [];
-		foreach ($rows as $row) {
-			$n = new Comment();
-			$comments[] = $n->setId($row['id'])
-				->setBody($row['body'])
-				->setCreatedAt($row['created_at'])
-				->setNewsId($row['news_id']);
-		}
-
-		return $comments;
+		return $this->commentRepository->listAll();
 	}
 
 	public function addCommentForNews($body, $newsId)
 	{
-		$db = DB::getInstance();
-		$sql = "INSERT INTO `comment` (`body`, `created_at`, `news_id`) VALUES('" . $body . "','" . date('Y-m-d') . "','" . $newsId . "')";
-		$db->exec($sql);
-		return $db->lastInsertId($sql);
+		$comment = new Comment();
+		$comment->setBody($body)
+			->setNewsId($newsId);
+		return $this->commentRepository->add($comment);
 	}
 
 	public function deleteComment($id)
 	{
-		$db = DB::getInstance();
-		$sql = "DELETE FROM `comment` WHERE `id`=" . $id;
-		return $db->exec($sql);
+		return $this->commentRepository->deleteById($id);
 	}
 }

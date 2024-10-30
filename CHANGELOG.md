@@ -1,3 +1,12 @@
+## Optimy 0.0.2
+
+- Refactor the CommentController.php, separate first the business logic and data logic
+- create following files `app/Interfaces/CommentRepositoryInterface.php`, `app/Repositories/CommentRepositroy.php`
+- transfer first the database instance on the repository from controller
+- remove the `require_once(ROOT . '/utils/DB.php');` from CommentController.php
+- added on `app/Controllers/NewsController.php`, commentRepository to delete comments associated with news
+- on `app/Repositories/CommentRepositroy.php`, added deleteByNewsId for easier deletion of comments by news_id
+
 ## Optimy 0.0.1
 
 - Refactor the NewsController.php, separate first the business logic and data logic
