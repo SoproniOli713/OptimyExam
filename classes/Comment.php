@@ -1,5 +1,5 @@
 <?php
-
+namespace Classes;
 class Comment
 {
 	protected $id, $body, $createdAt, $newsId;
