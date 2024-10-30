@@ -4,6 +4,9 @@
     },
     "autoload": {
 
+        "files": [
+            "helpers/env.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Classes\\": "classes/"

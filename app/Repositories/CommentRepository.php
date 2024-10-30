@@ -2,15 +2,16 @@
 namespace App\Repositories;
 
 use App\Interfaces\CommentRepositoryInterface;
+use App\Interfaces\DatabaseServiceInterface;
 use Classes\Comment;
 use App\Controllers\DB;
 
 class CommentRepository implements CommentRepositoryInterface
 {
     private $databaseService;
-    public function __construct()
+    public function __construct(DatabaseServiceInterface $databaseService)
     {
-        $this->databaseService = DB::getInstance();
+        $this->databaseService = $databaseService;
     }
 
     public function listAll()
@@ -33,7 +34,7 @@ class CommentRepository implements CommentRepositoryInterface
     public function add(Comment $comment)
     {
         $sql = "INSERT INTO `comment` (`body`, `created_at`, `news_id`) VALUES (?, ?, ?)";
-        $this->databaseService->exec($sql, [
+        $this->databaseService->executeQuery($sql, [
             $comment->getBody(),
             date('Y-m-d'),
             $comment->getNewsId()
@@ -45,12 +46,12 @@ class CommentRepository implements CommentRepositoryInterface
     public function deleteById(int $id)
     {
         $sql = "DELETE FROM `comment` WHERE `id` = ?";
-        return $this->databaseService->exec($sql, [$id]) > 0;
+        return $this->databaseService->executeQuery($sql, [$id]) > 0;
     }
 
     public function deleteByNewsId(int $id)
     {
         $sql = "DELETE FROM `comment` WHERE `news_id` = ?";
-        return $this->databaseService->exec($sql, [$id]) > 0;
+        return $this->databaseService->executeQuery($sql, [$id]) > 0;
     }
 }

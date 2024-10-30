@@ -3,14 +3,14 @@ namespace App\Repositories;
 
 use App\Interfaces\NewsRepositoryInterface;
 use Classes\News;
-use App\Controllers\DB;
+use App\Interfaces\DatabaseServiceInterface;
 
 class NewsRepository implements NewsRepositoryInterface
 {
     private $databaseService;
-    public function __construct()
+    public function __construct(DatabaseServiceInterface $databaseService)
     {
-        $this->databaseService = DB::getInstance();
+        $this->databaseService = $databaseService;
     }
 
     /**
@@ -23,6 +23,7 @@ class NewsRepository implements NewsRepositoryInterface
         $rows = $this->databaseService->select('SELECT * FROM `news`');
 
         $news = [];
+
         foreach ($rows as $row) {
             $n = new News();
             $news[] = $n->setId($row['id'])
@@ -41,7 +42,7 @@ class NewsRepository implements NewsRepositoryInterface
     public function add(News $news)
     {
         $sql = "INSERT INTO `news` (`title`, `body`, `created_at`) VALUES(?, ?, ?)";
-        $this->databaseService->exec($sql, [$news->getTitle(), $news->getBody(), date('Y-m-d')]);
+        $this->databaseService->executeQuery($sql, [$news->getTitle(), $news->getBody(), date('Y-m-d')]);
         return $this->databaseService->lastInsertId();
     }
 
@@ -53,6 +54,6 @@ class NewsRepository implements NewsRepositoryInterface
     public function delete($id)
     {
         $sql = "DELETE FROM `news` WHERE `id`=" . $id;
-        return $this->databaseService->exec($sql);
+        return $this->databaseService->executeQuery($sql);
     }
 }

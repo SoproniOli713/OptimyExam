@@ -1,3 +1,13 @@
+## Optimy 0.0.3
+
+- implement usage of .env file, load the environment variables `index.php`
+- add `config/database.php`
+- add `helpers/env.php`
+- refactored DB.php, separate the functionality of database connection and database queries
+- added `app/Interfaces/DatabaseConnectionInterface.php`, `app/Interfaces/DatabaseServiceInterface.php`
+- added `app/Services/Connections/DatabaseConnectionService.php`, `app/Services/DatabaseService.php`
+- remove `app/Controllers/DB.php`
+
 ## Optimy 0.0.2
 
 - Refactor the CommentController.php, separate first the business logic and data logic
@@ -73,4 +83,5 @@
 - classes
   - News.php
   - Comment.php
+- helpers
 - vendor/
