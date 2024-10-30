@@ -3,6 +3,7 @@
 - implement usage of .env file, load the environment variables `index.php`
 - add `config/database.php`
 - add `helpers/env.php`
+- add in `composer.json` the helpers/env.php
 - refactored DB.php, separate the functionality of database connection and database queries
 - added `app/Interfaces/DatabaseConnectionInterface.php`, `app/Interfaces/DatabaseServiceInterface.php`
 - added `app/Services/Connections/DatabaseConnectionService.php`, `app/Services/DatabaseService.php`
