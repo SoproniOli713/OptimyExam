@@ -1,3 +1,19 @@
+## Transfer utils file and use namespacing
+
+- copy files from utils folder to app/Controllers
+- apply namespace on each files
+- rename NewsManager.php -> NewsController.php, CommentManager.php -> CommentController.php same goes to there class names
+- import neccesary files using use namespace/file
+- remove the require_once on the \_\_construct function
+- on index.php file
+  change
+  `require_once(ROOT . '/utils/NewsManager.php')`;
+  `require_once(ROOT . '/utils/CommentManager.php');`
+  to
+  `use App\Controllers\NewsController;`
+  `use App\Controllers\CommentController;`
+- the application should still be running as the same
+
 ## Rename folder class into classes
 
 - add namespace on the files after <?php `namespace Classes`;
