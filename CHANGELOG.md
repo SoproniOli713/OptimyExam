@@ -1,3 +1,10 @@
+## Optimiy 0.0.4
+
+- delete utils folder and `app/Controllers/DB.php`
+- create a trait for common functionality of createdAt date `app/Traits/CreatedAtTrait.php`;
+- updated `classes/News.php` and `classes/Comment.php`
+- added comments
+
 ## Optimy 0.0.3
 
 - implement usage of .env file, load the environment variables `index.php`

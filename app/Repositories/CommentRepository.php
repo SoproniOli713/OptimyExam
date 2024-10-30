@@ -4,7 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\CommentRepositoryInterface;
 use App\Interfaces\DatabaseServiceInterface;
 use Classes\Comment;
-use App\Controllers\DB;
+
 
 class CommentRepository implements CommentRepositoryInterface
 {
@@ -21,11 +21,15 @@ class CommentRepository implements CommentRepositoryInterface
 
         $comments = [];
         foreach ($rows as $row) {
-            $n = new Comment();
-            $comments[] = $n->setId($row['id'])
-                ->setBody($row['body'])
-                ->setCreatedAt($row['created_at'])
-                ->setNewsId($row['news_id']);
+            $comment = (new Comment(
+                $row['news_id'],
+                $row['body'],
+                new \DateTime($row['created_at'])
+            ))
+                ->setId($row['id']);
+
+            $comments[] = $comment;
+
         }
 
         return $comments;

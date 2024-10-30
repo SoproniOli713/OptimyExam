@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\NewsRepositoryInterface;
 use Classes\News;
 use App\Interfaces\DatabaseServiceInterface;
+use DateTime;
 
 class NewsRepository implements NewsRepositoryInterface
 {
@@ -25,11 +26,9 @@ class NewsRepository implements NewsRepositoryInterface
         $news = [];
 
         foreach ($rows as $row) {
-            $n = new News();
-            $news[] = $n->setId($row['id'])
-                ->setTitle($row['title'])
-                ->setBody($row['body'])
-                ->setCreatedAt($row['created_at']);
+
+            array_push($news, new News($row['id'], $row['title'], $row['body'], new DateTime($row['created_at'])));
+
         }
         return $news;
     }
