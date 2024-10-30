@@ -1,3 +1,10 @@
+## Optimy 0.0.1
+
+- Refactor the NewsController.php, separate first the business logic and data logic
+- create following files 'app/Interfaces/NewsRepositoryInterface.php', 'app/Repositories/NewsRepository.php'
+- transfer first the database instance on the repository from controller
+- added TODO for delete comments for news
+
 ## Transfer utils file and use namespacing
 
 - copy files from utils folder to app/Controllers

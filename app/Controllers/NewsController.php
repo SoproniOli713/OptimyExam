@@ -1,25 +1,28 @@
 <?php
 namespace App\Controllers;
-use Classes\News;
+use App\Interfaces\NewsRepositoryInterface;
+
 use App\Controllers\CommentController;
 use App\Controllers\DB;
+use Classes\News;
 
 class NewsController
 {
 	private static $instance = null;
+	private $newsRepository;
 
-	private function __construct()
+	private function __construct(NewsRepositoryInterface $NewsRepository)
 	{
 
-
+		$this->newsRepository = $NewsRepository;
 
 	}
 
-	public static function getInstance()
+	public static function getInstance(NewsRepositoryInterface $newsRepositoryInterface)
 	{
 		if (null === self::$instance) {
-			$c = __CLASS__;
-			self::$instance = new $c;
+			self::$instance = new self($newsRepositoryInterface);
+			;
 		}
 		return self::$instance;
 	}
@@ -29,19 +32,8 @@ class NewsController
 	 */
 	public function listNews()
 	{
-		$db = DB::getInstance();
-		$rows = $db->select('SELECT * FROM `news`');
+		return $this->newsRepository->listAll();
 
-		$news = [];
-		foreach ($rows as $row) {
-			$n = new News();
-			$news[] = $n->setId($row['id'])
-				->setTitle($row['title'])
-				->setBody($row['body'])
-				->setCreatedAt($row['created_at']);
-		}
-
-		return $news;
 	}
 
 	/**
@@ -49,10 +41,10 @@ class NewsController
 	 */
 	public function addNews($title, $body)
 	{
-		$db = DB::getInstance();
-		$sql = "INSERT INTO `news` (`title`, `body`, `created_at`) VALUES('" . $title . "','" . $body . "','" . date('Y-m-d') . "')";
-		$db->exec($sql);
-		return $db->lastInsertId($sql);
+
+		$news = new News;
+		$news->setTitle($title)->setBody($body);
+		return $this->newsRepository->add($news);
 	}
 
 	/**
@@ -60,21 +52,11 @@ class NewsController
 	 */
 	public function deleteNews($id)
 	{
-		$comments = CommentController::getInstance()->listComments();
-		$idsToDelete = [];
 
-		foreach ($comments as $comment) {
-			if ($comment->getNewsId() == $id) {
-				$idsToDelete[] = $comment->getId();
-			}
-		}
+		// TODO:: add comment deletion base on news_id {$id}
 
-		foreach ($idsToDelete as $id) {
-			CommentController::getInstance()->deleteComment($id);
-		}
+		return $this->newsRepository->delete($id);
 
-		$db = DB::getInstance();
-		$sql = "DELETE FROM `news` WHERE `id`=" . $id;
-		return $db->exec($sql);
+
 	}
 }

@@ -4,9 +4,10 @@ require __DIR__ . '/vendor/autoload.php';
 define('ROOT', __DIR__);
 use App\Controllers\NewsController;
 use App\Controllers\CommentController;
+use App\Repositories\NewsRepository;
 
 
-foreach (NewsController::getInstance()->listNews() as $news) {
+foreach (NewsController::getInstance(new NewsRepository())->listNews() as $news) {
 	echo ("############ NEWS " . $news->getTitle() . " ############\n");
 	echo ($news->getBody() . "\n");
 	foreach (CommentController::getInstance()->listComments() as $comment) {
