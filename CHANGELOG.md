@@ -1,4 +1,11 @@
-## Optimiy 0.0.4
+## Optimy 0.0.5
+
+- apply Views for presentation layer
+- added `app\Views\news.php`, `app\Services\ViewRendererService.php`
+- updated `app\Controllers\NewsController.php` load the view in here
+- updated `index.php`, remove the looping of news
+
+## Optimy 0.0.4
 
 - delete utils folder and `app/Controllers/DB.php`
 - create a trait for common functionality of createdAt date `app/Traits/CreatedAtTrait.php`;

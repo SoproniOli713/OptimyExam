@@ -22,15 +22,19 @@ $databaseService = new DatabaseService($databaseConnection);
 $commentRepository = new CommentRepository($databaseService);
 $newsRepository = new NewsRepository($databaseService);
 
-foreach (NewsController::getInstance($newsRepository, $commentRepository)->listNews() as $news) {
-	echo ("############ NEWS " . $news->getTitle() . " ############\n");
-	echo ($news->getBody() . "\n");
-	foreach (CommentController::getInstance($commentRepository)->listComments() as $comment) {
-		if ($comment->getNewsId() == $news->getId()) {
-			echo ("Comment " . $comment->getId() . " : " . $comment->getBody() . "\/n");
-		}
-	}
-}
+
+// Display news with comments
+NewsController::getInstance($newsRepository, $commentRepository)->displayNewsWithComments();
+
+// foreach (NewsController::getInstance($newsRepository, $commentRepository)->listNews() as $news) {
+// 	echo ("############ NEWS " . $news->getTitle() . " ############\n");
+// 	echo ($news->getBody() . "\n");
+// 	foreach (CommentController::getInstance($commentRepository)->listComments() as $comment) {
+// 		if ($comment->getNewsId() == $news->getId()) {
+// 			echo ("Comment " . $comment->getId() . " : " . $comment->getBody() . "\/n");
+// 		}
+// 	}
+// }
 
 
 // $commentManager = CommentController::getInstance();

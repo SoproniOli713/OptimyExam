@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Interfaces\CommentRepositoryInterface;
 use App\Interfaces\NewsRepositoryInterface;
 use Classes\News;
+use App\Services\ViewRendererService;
 
 class NewsController
 {
@@ -27,6 +28,14 @@ class NewsController
 		return self::$instance;
 	}
 
+	public function displayNewsWithComments()
+	{
+		$newsList = $this->listNews();
+		$commentsList = $this->commentRepository->listAll();
+
+		ViewRendererService::render('news', compact('newsList', 'commentsList'));
+	}
+
 	/**
 	 * list all news
 	 */
@@ -42,7 +51,7 @@ class NewsController
 	public function addNews($title, $body)
 	{
 
-		$news = new News;
+		$news = new News();
 		$news->setTitle($title)->setBody($body);
 		return $this->newsRepository->add($news);
 	}
