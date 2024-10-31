@@ -8,7 +8,6 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 use App\Controllers\NewsController;
-use App\Controllers\CommentController;
 use App\Repositories\NewsRepository;
 use App\Repositories\CommentRepository;
 use App\Services\Connections\DatabaseConnectionService;
@@ -23,19 +22,8 @@ $commentRepository = new CommentRepository($databaseService);
 $newsRepository = new NewsRepository($databaseService);
 
 
-// Display news with comments
-NewsController::getInstance($newsRepository, $commentRepository)->displayNewsWithComments();
+// Display news with comments for better html view
+// NewsController::getInstance($newsRepository, $commentRepository)->displayNewsWithComments();
 
-// foreach (NewsController::getInstance($newsRepository, $commentRepository)->listNews() as $news) {
-// 	echo ("############ NEWS " . $news->getTitle() . " ############\n");
-// 	echo ($news->getBody() . "\n");
-// 	foreach (CommentController::getInstance($commentRepository)->listComments() as $comment) {
-// 		if ($comment->getNewsId() == $news->getId()) {
-// 			echo ("Comment " . $comment->getId() . " : " . $comment->getBody() . "\/n");
-// 		}
-// 	}
-// }
-
-
-// $commentManager = CommentController::getInstance();
-// $c = $commentManager->listComments();
+// Display news with comments using json
+echo NewsController::getInstance($newsRepository, $commentRepository)->getNewsWithComments();

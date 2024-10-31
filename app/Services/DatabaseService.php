@@ -16,13 +16,15 @@ class DatabaseService implements DatabaseServiceInterface
 
     /**
      * Runs a select query on the database
-     * @param mixed $sql
+     * @param string $sql
      * @return array
      */
     public function select(string $query, array $params = []): array
     {
         $statement = $this->dbService->prepare($query);
+
         $statement->execute($params);
+
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
@@ -33,9 +35,13 @@ class DatabaseService implements DatabaseServiceInterface
     public function executeQuery(string $query, array $params = []): int
     {
         $statement = $this->dbService->prepare($query);
-        return $statement->execute($params);
-        // return $statement->rowCount();
+
+        $statement->execute($params);
+
+        return $statement->rowCount();
     }
+
+
 
     /**
      * Get the last inserted Id

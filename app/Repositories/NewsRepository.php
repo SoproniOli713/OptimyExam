@@ -6,6 +6,14 @@ use Classes\News;
 use App\Interfaces\DatabaseServiceInterface;
 use DateTime;
 
+
+/**
+ * Class NewsRepository
+ *
+ * This class implements the NewsRepositoryInterface, providing methods for 
+ * interacting with the `news` table in the database. It includes operations 
+ * such as listing, adding, and deleting news records.
+ */
 class NewsRepository implements NewsRepositoryInterface
 {
     private $databaseService;
@@ -40,8 +48,16 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function add(News $news)
     {
+        # NOTE :: created_at will use latest datetime upon calling this function
+
         $sql = "INSERT INTO `news` (`title`, `body`, `created_at`) VALUES(?, ?, ?)";
-        $this->databaseService->executeQuery($sql, [$news->getTitle(), $news->getBody(), date('Y-m-d')]);
+
+        $this->databaseService->executeQuery($sql, [
+            $news->getTitle(),
+            $news->getBody(),
+            date('Y-m-d H:i:s'),
+        ]);
+
         return $this->databaseService->lastInsertId();
     }
 
@@ -52,7 +68,10 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function delete($id)
     {
-        $sql = "DELETE FROM `news` WHERE `id`=" . $id;
-        return $this->databaseService->executeQuery($sql);
+        $sql = "DELETE FROM `news` WHERE `id` = ?";
+
+        // Return true if a record was deleted
+        return $this->databaseService->executeQuery($sql, [$id]) > 0;
     }
+
 }

@@ -12,8 +12,8 @@ class Comment
 
 	public function __construct(int $newsId, string $body, \DateTime $createdAt = null)
 	{
-		$this->newsId = $newsId;
-		$this->body = $body;
+		$this->setNewsId($newsId);
+		$this->setBody($body);
 		$this->setCreatedAt($createdAt);
 	}
 
@@ -49,9 +49,11 @@ class Comment
 	public function setBody($body)
 	{
 		if (empty($body)) {
+
 			throw new \InvalidArgumentException("Comment body cannot be empty");
 		}
-		$this->body = $body;
+
+		$this->body = htmlspecialchars($body);
 
 		return $this;
 	}
@@ -84,6 +86,7 @@ class Comment
 
 		// Check if $newsId is a positive integer
 		if (!is_int($newsId) || $newsId <= 0) {
+
 			throw new \InvalidArgumentException('News ID must be a positive integer.');
 		}
 

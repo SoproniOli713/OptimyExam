@@ -10,13 +10,13 @@ class News
 	private string $body;
 
 
-	public function __construct(int $id, string $title, string $body, DateTime $createdAt = null)
+	public function __construct(?int $id, string $title, string $body, DateTime $createdAt = null)
 	{
 		$this->id = $id;
 
-		$this->title = $title;
+		$this->setTitle($title);
 
-		$this->body = $body;
+		$this->setBody($body);
 
 		$this->setCreatedAt($createdAt);
 
@@ -27,7 +27,7 @@ class News
 	 * @param int|null $id The ID of the comment, or null if not set.
 	 * @return $this
 	 */
-	public function setId(int $id)
+	public function setId(?int $id)
 	{
 		$this->id = $id;
 
@@ -56,7 +56,8 @@ class News
 		if (empty($title)) {
 			throw new \InvalidArgumentException("News title cannot be empty");
 		}
-		$this->title = $title;
+
+		$this->title = htmlspecialchars($title);
 
 		return $this;
 	}
@@ -83,7 +84,7 @@ class News
 			throw new \InvalidArgumentException("News body cannot be empty");
 		}
 
-		$this->body = $body;
+		$this->body = htmlspecialchars($body);
 
 		return $this;
 	}

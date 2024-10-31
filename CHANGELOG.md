@@ -1,3 +1,13 @@
+## Optimy 0.0.6
+
+- added sample test
+- make use of PhpUnit
+- added comments and documentations
+- fix some issues encountered during the implementation of sample test cases
+- added `COMMENTS.md`
+- added `inser_and_delete_news_and_comment.php` for testing add and delete news
+- updated `README.md`
+
 ## Optimy 0.0.5
 
 - apply Views for presentation layer

@@ -11,7 +11,7 @@ class CommentFactory
 
     public function createDefaultComment(int $newsId): Comment
     {
-        return new Comment($newsId, "Default comment content");
+        return new Comment($newsId, "Default comment content", new \DateTime());
     }
 
 }

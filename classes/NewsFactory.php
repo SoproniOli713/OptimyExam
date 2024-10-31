@@ -12,6 +12,6 @@ class NewsFactory
 
     public function createDefaultNews()
     {
-        return new News(0, "Default News Title", "Default News Description");
+        return new News(null, "News title", "This is the body of the new test news.", new \DateTime());
     }
 }
